@@ -1,6 +1,6 @@
 # parse Errors
 
-## ENV.js file required:
+## ./ENV.js file required:
 
 ```js
 export default ["applicationID", "Javascript Key", "Live query URL"];
