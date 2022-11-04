@@ -1,5 +1,5 @@
 /*global Parse*/
-import codes from "./env.js";
+import codes from "./ENV.js";
 let inited = false;
 async function init(codes) {
 	if (!Parse) throw Error("Parse is not included in the HTML");
