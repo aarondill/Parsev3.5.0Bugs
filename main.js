@@ -39,9 +39,9 @@ async function firstObject() {
 }
 async function main() {
 	await init(codes);
-	const outFirst = await firstObject();
-	document.querySelector("#firstout").innerText = outFirst;
-	addSubscription();
+	window.first = await firstObject();
+	document.querySelector("#firstout").innerText = window.first;
+	window.subscription = addSubscription();
 	document.querySelector("#subout").innerText =
 		"Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'socket')";
 }
