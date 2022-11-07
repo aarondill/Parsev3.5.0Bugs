@@ -162,7 +162,7 @@ Start of query.first function:
 var _this4 = this;
 ```
 
-within return value:
+within return value.then():
 
 ```js
 if (!objects[0].className) {
@@ -174,7 +174,7 @@ if (!objects[0].className) {
 
 start of query.first function removes \_this4 variable
 
-return value:
+within return value.then():
 
 ```js
 if (!objects[0].className) {
@@ -184,13 +184,13 @@ if (!objects[0].className) {
 
 ## Reason for error:
 
-the return value of the first function is:
+the return value of the first() function is:
 
 ```js
 return (0, _find.default)(controller).call(controller, this.className, params, findOptions).then(function (response) {...})
 ```
 
-It is important to note that the function within the then call will be run with _this_ set to the globalThis value, which in node.js is undefined; while _\_this4_ in v3.4.4 is a Parse.Query object.
+It is important to note that the function within the then call will be run with _this_ set to undefined, due to [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode#no_this_substitution); while _\_this4_ in v3.4.4 is a Parse.Query object.
 
 Due to this variation, while at first it seems to have the same result upon the removal of the \_this4 variable in favor of directly using the this value, due to the use of the variable in a seperate scope, the this value resolves to undefined and this is trying to access _undefined.className_ which (understandably) results in a typeError.
 
@@ -275,3 +275,5 @@ the corrected code will be (identical to the v3.4.4 code):
      */
 }
 ```
+
+I have so far only looked at the code differences for Parse.Query.first(), but I will soon look at Parse.Query.subscribe() and see if I can find the issue(s) that result in that error. My suspicion is that it is a similar or the same issue.

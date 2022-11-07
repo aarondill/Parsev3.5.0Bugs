@@ -13,7 +13,7 @@ Within the Parse JS SDK, variables intended to capture the context of _this_ in 
 
 Using simple find tools(i.e. searching for var \_this), I found that **17 \_this** variables were removed from the Javascript SDK between v3.4.4 and v3.5.0. At first glance, this change seems positive, as it reduces memory required by the Parse SDK module, however, as can be seen in [issue #1596](https://github.com/parse-community/Parse-SDK-JS/issues/1596) and my discovery of [the issue causing it](https://github.com/parse-community/Parse-SDK-JS/issues/1596#issuecomment-1305038379) the removal of some of these \_this variables create issues that can halt functions and throw errors.
 
-It seems possible that the contributor(s) related to the removal of these \_this variables was mistaken in the implementation of the _this_ keyword in (at least) functions passed to Promise.then() and therefore errors are thrown by the environment attempting to read properties of the globalThis object, which is undefined in node.js.
+It seems possible that the contributor(s) related to the removal of these \_this variables was mistaken in the implementation of the _this_ keyword in (at least) functions passed to Promise.then() and therefore errors are thrown by the environment attempting to read properties of _this_, at times where _this_ evaluates to undefined in [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode#no_this_substitution).
 
 It is greatly recommended that each removal of these \_this variables is reevaluated and that any necessary variables are reinstantiated into the SDK to avoid futher errors and issues.
 
@@ -50,4 +50,4 @@ Client
 
 ### Note
 
-Due to the format of this issue, it does not quite fit the new issue format, however, for lack of better location, I am placing this under generic issues. Please let me know if there is a better location for this issue.
+Due to the format of this issue, it does not quite fit the issue format, however, for lack of better location, I am placing this under generic issues. Please let me know if there is a better location for this issue.
